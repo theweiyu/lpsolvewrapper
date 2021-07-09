@@ -17,7 +17,7 @@ print ('numpy: ' + NUMPY)
 windir = getenv('windir')
 if windir == None:
   WIN32 = 'NOWIN32'
-  LPSOLVE55 = '../../lpsolve55/bin/ux64'  #change path to reflect appropriate path.
+  LPSOLVE55 = '../../lpsolve55/bin/ux64'  #change path to liblpsolve55.so binary
 else:
   WIN32 = 'WIN32'
   LPSOLVE55 = '../../lpsolve55/bin/win32'
