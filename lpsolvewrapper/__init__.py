@@ -4,19 +4,22 @@ except:
     from distutils.sysconfig import get_python_lib
     from shutil import copy
     import os
-    import sys
-    import ctypes
     sp_path = get_python_lib()
 
     # install lpsolve55 in site-packages
-    driver_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55.cpython-36m-x86_64-linux-gnu.so')
-    egg_info_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55-5.5.0.9-py3.6.egg-info')
-    copy(driver_path, sp_path)
-    copy(egg_info_path, sp_path)
-
-    # cache lib.so so that we don't need to worry about setting LD_LIBRARY_PATH or hacking anything into /usr/lib
-    so_path = os.path.join(sp_path, 'lpsolvewrapper', 'liblpsolve55.so')
-    ctypes.cdll.LoadLibrary(so_path)
+	if os.name == 'nt':
+		driver_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55.cp36-win_amd64.pyd')
+		copy(driver_path, sp_path)
+	else:
+		import ctypes
+		driver_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55.cpython-36m-x86_64-linux-gnu.so')
+		egg_info_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55-5.5.0.9-py3.6.egg-info')
+		copy(driver_path, sp_path)
+		copy(egg_info_path, sp_path)
+		# cache lib.so so that we don't need to worry about setting LD_LIBRARY_PATH or hacking anything into /usr/lib
+		so_path = os.path.join(sp_path, 'lpsolvewrapper', 'liblpsolve55.so')
+		ctypes.cdll.LoadLibrary(so_path)
+		
     from lpsolve55 import *
 
 
