@@ -4,109 +4,110 @@ except:
     from distutils.sysconfig import get_python_lib
     from shutil import copy
     import os
+
     sp_path = get_python_lib()
 
     # install lpsolve55 in site-packages
-	if os.name == 'nt':
-		driver_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55.cp36-win_amd64.pyd')
-		copy(driver_path, sp_path)
-	else:
-		import ctypes
-		driver_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55.cpython-36m-x86_64-linux-gnu.so')
-		egg_info_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55-5.5.0.9-py3.6.egg-info')
-		copy(driver_path, sp_path)
-		copy(egg_info_path, sp_path)
-		# cache lib.so so that we don't need to worry about setting LD_LIBRARY_PATH or hacking anything into /usr/lib
-		so_path = os.path.join(sp_path, 'lpsolvewrapper', 'liblpsolve55.so')
-		ctypes.cdll.LoadLibrary(so_path)
-		
-    from lpsolve55 import *
-
-
-def lp_solve(f = None, a = None, b = None, e = None, vlb = None, vub = None, xint = None, scalemode = None, keep = None):
-  """LP_SOLVE  Solves mixed integer linear programming problems.
-
-  SYNOPSIS: [obj,x,duals,stat] = lp_solve(f,a,b,e,vlb,vub,xint,scalemode,keep)
-
-     solves the MILP problem
-
-             max v = f'*x
-               a*x <> b
-                 vlb <= x <= vub
-                 x(int) are integer
-
-  ARGUMENTS: The first four arguments are required:
-
-           f: n vector of coefficients for a linear objective function.
-           a: m by n matrix representing linear constraints.
-           b: m vector of right sides for the inequality constraints.
-           e: m vector that determines the sense of the inequalities:
-                     e(i) = -1  ==> Less Than
-                     e(i) =  0  ==> Equals
-                     e(i) =  1  ==> Greater Than
-         vlb: n vector of lower bounds. If empty or omitted,
-              then the lower bounds are set to zero.
-         vub: n vector of upper bounds. May be omitted or empty.
-        xint: vector of integer variables. May be omitted or empty.
-   scalemode: scale flag. Off when 0 or omitted.
-        keep: Flag for keeping the lp problem after it's been solved.
-              If omitted, the lp will be deleted when solved.
-
-  OUTPUT: A nonempty output is returned if a solution is found:
-
-         obj: Optimal value of the objective function.
-           x: Optimal value of the decision variables.
-       duals: solution of the dual problem."""
-
-  if f == None:
-          help(lp_solve)
-          return
-
-  m = len(a)
-  n = len(a[0])
-  lp = lpsolve('make_lp', m, n)
-  lpsolve('set_verbose', lp, IMPORTANT)
-  lpsolve('set_mat', lp, a)
-  lpsolve('set_rh_vec', lp, b)
-  lpsolve('set_obj_fn', lp, f)
-  lpsolve('set_maxim', lp) # default is solving minimum lp.
-
-  for i in range(m):
-    if e[i] < 0:
-          con_type = LE
-    elif e[i] == 0:
-          con_type = EQ
+    if os.name == 'nt':
+        driver_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55.cp36-win_amd64.pyd')
+        copy(driver_path, sp_path)
     else:
-          con_type = GE
-    lpsolve('set_constr_type', lp, i + 1, con_type)
+        import ctypes
+        driver_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55.cpython-36m-x86_64-linux-gnu.so')
+        egg_info_path = os.path.join(sp_path, 'lpsolvewrapper', 'lpsolve55-5.5.0.9-py3.6.egg-info')
+        copy(driver_path, sp_path)
+        copy(egg_info_path, sp_path)
+        # cache lib.so so that we don't need to worry about setting LD_LIBRARY_PATH or hacking anything into /usr/lib
+        so_path = os.path.join(sp_path, 'lpsolvewrapper', 'liblpsolve55.so')
+        ctypes.cdll.LoadLibrary(so_path)
 
-  if vlb != None:
-    for i in range(n):
-      lpsolve('set_lowbo', lp, i + 1, vlb[i])
+from lpsolve55 import *
 
-  if vub != None:
-    for i in range(n):
-      lpsolve('set_upbo', lp, i + 1, vub[i])
 
-  if xint != None:
-    for i in range(len(xint)):
-      lpsolve('set_int', lp, xint[i], 1)
+def lp_solve(f=None, a=None, b=None, e=None, vlb=None, vub=None, xint=None, scalemode=None, keep=None):
+    """LP_SOLVE  Solves mixed integer linear programming problems.
 
-  if scalemode != None:
-    if scalemode != 0:
-      lpsolve('set_scaling', lp, scalemode)
+    SYNOPSIS: [obj,x,duals,stat] = lp_solve(f,a,b,e,vlb,vub,xint,scalemode,keep)
 
-  result = lpsolve('solve', lp)
-  if result == 0 or result == 1 or result == 11 or result == 12:
-    [obj, x, duals, ret] = lpsolve('get_solution', lp)
-    stat = result
-  else:
-    obj = []
-    x = []
-    duals = []
-    stat = result
+       solves the MILP problem
 
-  if keep != None and keep != 0:
-    lpsolve('delete_lp', lp)
+               max v = f'*x
+                 a*x <> b
+                   vlb <= x <= vub
+                   x(int) are integer
 
-  return [obj, x, duals]
+    ARGUMENTS: The first four arguments are required:
+
+             f: n vector of coefficients for a linear objective function.
+             a: m by n matrix representing linear constraints.
+             b: m vector of right sides for the inequality constraints.
+             e: m vector that determines the sense of the inequalities:
+                       e(i) = -1  ==> Less Than
+                       e(i) =  0  ==> Equals
+                       e(i) =  1  ==> Greater Than
+           vlb: n vector of lower bounds. If empty or omitted,
+                then the lower bounds are set to zero.
+           vub: n vector of upper bounds. May be omitted or empty.
+          xint: vector of integer variables. May be omitted or empty.
+     scalemode: scale flag. Off when 0 or omitted.
+          keep: Flag for keeping the lp problem after it's been solved.
+                If omitted, the lp will be deleted when solved.
+
+    OUTPUT: A nonempty output is returned if a solution is found:
+
+           obj: Optimal value of the objective function.
+             x: Optimal value of the decision variables.
+         duals: solution of the dual problem."""
+
+    if f == None:
+        help(lp_solve)
+        return
+
+    m = len(a)
+    n = len(a[0])
+    lp = lpsolve('make_lp', m, n)
+    lpsolve('set_verbose', lp, IMPORTANT)
+    lpsolve('set_mat', lp, a)
+    lpsolve('set_rh_vec', lp, b)
+    lpsolve('set_obj_fn', lp, f)
+    lpsolve('set_maxim', lp)  # default is solving minimum lp.
+
+    for i in range(m):
+        if e[i] < 0:
+            con_type = LE
+        elif e[i] == 0:
+            con_type = EQ
+        else:
+            con_type = GE
+        lpsolve('set_constr_type', lp, i + 1, con_type)
+
+    if vlb != None:
+        for i in range(n):
+            lpsolve('set_lowbo', lp, i + 1, vlb[i])
+
+    if vub != None:
+        for i in range(n):
+            lpsolve('set_upbo', lp, i + 1, vub[i])
+
+    if xint != None:
+        for i in range(len(xint)):
+            lpsolve('set_int', lp, xint[i], 1)
+
+    if scalemode != None:
+        if scalemode != 0:
+            lpsolve('set_scaling', lp, scalemode)
+
+    result = lpsolve('solve', lp)
+    if result == 0 or result == 1 or result == 11 or result == 12:
+        [obj, x, duals, ret] = lpsolve('get_solution', lp)
+        stat = result
+    else:
+        obj = []
+        x = []
+        duals = []
+        stat = result
+
+    if keep != None and keep != 0:
+        lpsolve('delete_lp', lp)
+
+    return [obj, x, duals]
