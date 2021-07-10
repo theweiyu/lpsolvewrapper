@@ -1,7 +1,7 @@
 # lpsolvewrapper
 Python3.6 wrapper for compiled lpsolve bindings
 
-C source code compiled for python 3.6 (64-bit) and wrapper to avoid multiple fragmented library files needing to be correctly located in linux environment. This is has been tested on Ubuntu and Windows 7/10.
+C source code compiled for python 3.6 (64-bit) and wrapper to avoid multiple fragmented library files needing to be correctly located in linux environment. This is has been tested on Ubuntu and Windows 7/10. See official [lpsolve website](http://lpsolve.sourceforge.net/5.5/) for more information.
 
 ## Installation
 
