@@ -19,3 +19,6 @@ C source code compiled for python 3.6 (64-bit) and wrapper to avoid multiple fra
 2. First build the liblpsolve55.so binary: `sh src/lpsolve55/ccc`. This is dynamically loaded by the lpsolve driver (lpsolve55.so) as a dependency
 3. Update src/extra/Python/setup.py so that `LPSOLVE55=` points to the build directory containing liblpsolve55.so
 4. To compile the driver: `python src/extra/Python/setup.py install`
+
+## Troubleshooting
+`ModuleNotFoundError: No module named 'lpsolve55'` Make sure you are using Python 3.6 64-bit. If you continue to have this issue, check that the lpsolve55 binaries are successfully copied into site-packages upon import lpsolvewrapper for the first time. If you want to use a different version of python you'll need to re-compile from source (see above).
