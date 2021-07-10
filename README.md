@@ -11,7 +11,7 @@ C source code compiled for python 3.6 (64-bit) and wrapper to avoid multiple fra
 `pip install git+https://github.com/theweiyu/lpsolvewrapper`
 
 **Install from Wheel:**
-`pip install lpsolvewrapper-1.0.0-py3-none-any.whl`
+`pip install dist/lpsolvewrapper-1.0.0-py3-none-any.whl`
 
 ## Usage
 `from lpsolvewrapper import lp_solve`
