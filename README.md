@@ -23,4 +23,4 @@ C source code compiled for python 3.6 (64-bit) and wrapper to avoid multiple fra
 4. To compile the driver: `python src/extra/Python/setup.py install`
 
 ## Troubleshooting
-`ModuleNotFoundError: No module named 'lpsolve55'` Make sure you are using Python 3.6 64-bit. If you continue to have this issue, check that the lpsolve55 binaries are successfully copied into site-packages upon import lpsolvewrapper for the first time. If you want to use a different version of python you'll need to re-compile from source (see above).
+`ModuleNotFoundError: No module named 'lpsolve55'` Make sure you are using Python 3.6 64-bit. If you continue to have this issue, check that the lpsolve55 binaries are successfully copied into site-packages upon importing lpsolvewrapper for the first time. If you want to use a different version of python you'll need to re-compile from source (see above).
