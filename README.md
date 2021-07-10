@@ -5,6 +5,8 @@ C source code compiled for python 3.6 (64-bit) and wrapper to avoid multiple fra
 
 ## Installation
 
+`pip install lpsolvewrapper`
+
 **Install from Git:**
 `pip install git+https://github.com/theweiyu/lpsolvewrapper`
 
