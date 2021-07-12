@@ -58,7 +58,21 @@ def lp_solve(f=None, a=None, b=None, e=None, vlb=None, vub=None, xint=None, scal
 
            obj: Optimal value of the objective function.
              x: Optimal value of the decision variables.
-         duals: solution of the dual problem."""
+         duals: solution of the dual problem.
+         stat: 0: optimal solution found
+               1: the model is sub-optimal
+               2: the model is infeasible
+               3: the model is unbounded
+               4: the model is degenerate
+               5: numerical failure encountered
+               6: process aborted
+               7: timeout
+               9: the model was solved by presolve
+               10: the branch and bound routine failed
+               11: the branch and bound was stopped because of a break-at-first or break-at-value
+               12: a feasible branch and bound solution was found
+               13: no feasible branch and bound solution was found
+"""
 
     if f == None:
         help(lp_solve)
@@ -111,4 +125,4 @@ def lp_solve(f=None, a=None, b=None, e=None, vlb=None, vub=None, xint=None, scal
     if keep != None and keep != 0:
         lpsolve('delete_lp', lp)
 
-    return [obj, x, duals]
+    return [obj, x, duals, stat]
