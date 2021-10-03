@@ -11,7 +11,7 @@ if sys.platform == 'win32':
         lpsolvewrapper_files.append('lpsolve55.cp38-win_amd64.pyd')
     raise ValueError(f'python version not supported')
 elif sys.platform == 'linux':
-    lpsolvewrapper_files.append.('liblpsolve55.so')
+    lpsolvewrapper_files.append('liblpsolve55.so')
     if sys.version_info.major == 3 and sys.version_info.minor == 6:
         lpsolvewrapper_files.append('lpsolve55.cpython-36m-x86_64-linux-gnu.so')
     elif sys.version_info.major == 3 and sys.version_info.minor == 7:
