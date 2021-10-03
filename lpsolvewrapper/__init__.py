@@ -3,7 +3,7 @@ try:
 except:
     from distutils.sysconfig import get_python_lib
     from shutil import copy
-    import os
+    import os, glob
 
     wrapper_path = os.path.dirname(__file__)
     sp_path = get_python_lib()
